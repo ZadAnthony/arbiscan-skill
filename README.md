@@ -13,7 +13,7 @@ ArbiScan is an [OpenClaw Skill](https://clawhub.ai) that scans for arbitrage opp
 | **Funding Rate Arb** | Compares perpetual funding rates across exchanges | Public funding rate endpoints |
 | **Basis Arb** | Spots premium/discount between spot and futures | Spot + futures price tickers |
 | **Spot Spread** | Finds bid/ask gaps across exchanges | Order book top-of-book |
-| **Stablecoin Depeg** | Monitors USDT/USDC/DAI deviation from $1 | Stablecoin price tickers |
+| **Stablecoin Depeg** | Monitors USDC/DAI/FDUSD/TUSD deviation from $1 | Stablecoin price tickers |
 
 ## Quick Start
 

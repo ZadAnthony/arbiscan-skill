@@ -3,7 +3,7 @@ name: arbiscan
 display_name: ArbiScan - Cross-Exchange Arbitrage Scanner
 description: Scan arbitrage opportunities across Binance, OKX, Bybit, and Bitget. Covers funding rate differences, spot-futures basis, cross-exchange spot spreads, and stablecoin depeg events. Read-only — no trading, no API keys needed.
 version: 0.1.0
-author: arbiscan
+author: ZadAnthony
 tags:
   - crypto
   - arbitrage
@@ -38,7 +38,7 @@ Compare perpetual contract funding rates across exchanges. When one exchange cha
 2. Compare rates pairwise — find the lowest and highest
 3. Calculate rate difference and annualized yield: `APY = rate_diff × (365 × 24 / 8) × 100`
 4. Filter by minimum APY threshold (default: 0%)
-5. Assign risk level: LOW (<20% APY + major coin), MEDIUM (20-50% or non-major coin), HIGH (>50%)
+5. Assign risk level: LOW (major coin + APY<10%), MEDIUM (APY 10-50% or non-major coin), HIGH (APY>50% or non-major + APY>20%)
 6. Output sorted by APY descending
 
 **API endpoints (public, no key needed):**
@@ -66,7 +66,7 @@ Compare bid/ask prices across exchanges. If Exchange A's ask < Exchange B's bid,
 4. Note: actual execution depends on withdrawal speed, fees, and slippage
 
 ### 4. Stablecoin Depeg Monitor
-Monitor USDT, USDC, DAI, FDUSD prices for deviation from $1.00.
+Monitor USDC, DAI, FDUSD, TUSD prices for deviation from $1.00 (quoted in USDT).
 
 **Workflow:**
 1. Fetch stablecoin prices from multiple exchanges

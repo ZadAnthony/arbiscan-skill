@@ -34,12 +34,17 @@ def format_output(rows: list, headers: list, fmt: str = "table") -> str:
 
 
 def risk_level(apy: float, symbol: str) -> str:
-    """根据年化和币种评估风险等级"""
+    """根据年化和币种评估风险等级
+    HIGH: APY > 50% 或 (非主流币 且 APY > 20%)
+    MEDIUM: APY 10-50% 或 非主流币
+    LOW: 主流币 且 APY < 10%
+    """
     major_coins = {"BTC", "ETH", "BNB", "SOL", "XRP"}
+    is_major = symbol in major_coins
     if apy > 50:
         return "HIGH"
-    elif apy > 20 or symbol not in major_coins:
+    if not is_major and apy > 20:
+        return "HIGH"
+    if apy > 10 or not is_major:
         return "MEDIUM"
-    elif apy > 10:
-        return "LOW"
     return "LOW"

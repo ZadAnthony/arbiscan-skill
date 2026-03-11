@@ -1,6 +1,5 @@
-"""稳定币脱锚监控 — 监测 USDT/USDC 等偏离 $1 的情况"""
+"""稳定币脱锚监控 — 监测 USDC/DAI 等偏离 $1 的情况"""
 
-import sys
 from fetcher import _get
 from formatter import format_output
 

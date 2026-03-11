@@ -14,8 +14,8 @@
 | SEIUSDT   | Binance -0.0367%    | OKX -0.0122%        | 0.0245%     | 26.8%       | HIGH   | ~8h    |
 | DOTUSDT   | Binance -0.0368%    | Bitget -0.0131%     | 0.0237%     | 25.9%       | HIGH   | ~8h    |
 | INJUSDT   | Binance -0.0216%    | OKX 0.0019%         | 0.0236%     | 25.8%       | HIGH   | ~8h    |
-| BTCUSDT   | Binance -0.0111%    | OKX -0.0004%        | 0.0106%     | 11.6%       | LOW    | ~8h    |
-| ETHUSDT   | Bybit -0.0017%      | OKX 0.0075%         | 0.0092%     | 10.1%       | LOW    | ~8h    |
+| BTCUSDT   | Binance -0.0111%    | OKX -0.0004%        | 0.0106%     | 11.6%       | MEDIUM | ~8h    |
+| ETHUSDT   | Bybit -0.0017%      | OKX 0.0075%         | 0.0092%     | 10.1%       | MEDIUM | ~8h    |
 | SOLUSDT   | Bybit -0.0062%      | Binance 0.0007%     | 0.0068%     | 7.5%        | LOW    | ~8h    |
 
 > 27 total opportunities found in 152.2s
@@ -26,7 +26,7 @@
 - **Short (高费率)**: The exchange with the higher funding rate — go short here
 - **Rate Diff**: The difference between the two rates (per funding interval)
 - **Est. APY%**: Annualized yield estimate = `rate_diff × (365 × 24 / 8) × 100`
-- **Risk**: LOW (APY<15% + major coin), MEDIUM (15-30%), HIGH (>30% or small cap)
+- **Risk**: LOW (major coin + APY<10%), MEDIUM (APY 10-50% or non-major), HIGH (APY>50% or non-major + APY>20%)
 - **Window**: Time until next funding settlement (~8h for most exchanges)
 
 ## Disclaimer
