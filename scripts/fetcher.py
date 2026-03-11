@@ -117,10 +117,13 @@ def fetch_spot_ticker_okx(symbol: str) -> Optional[dict]:
 def fetch_spot_ticker_bitget(symbol: str) -> Optional[dict]:
     cfg = EXCHANGES["bitget"]
     url = cfg["base_url"] + cfg["endpoints"]["spot_ticker"]
-    data = _get(url, {"symbol": cfg["symbol_format"](symbol)})
+    # Bitget tickers 接口不支持单 symbol 过滤，需要遍历
+    data = _get(url)
     if data and data.get("data"):
-        item = data["data"][0] if isinstance(data["data"], list) else data["data"]
-        return {"bid": float(item.get("bidPr", 0)), "ask": float(item.get("askPr", 0))}
+        sym = cfg["symbol_format"](symbol)
+        for item in data["data"]:
+            if item.get("symbol") == sym:
+                return {"bid": float(item.get("bidPr", 0)), "ask": float(item.get("askPr", 0))}
     return None
 
 
@@ -172,10 +175,13 @@ def fetch_futures_price_okx(symbol: str) -> Optional[float]:
 def fetch_futures_price_bitget(symbol: str) -> Optional[float]:
     cfg = EXCHANGES["bitget"]
     url = cfg["base_url"] + cfg["endpoints"]["futures_ticker"]
-    data = _get(url, {"productType": "USDT-FUTURES", "symbol": cfg["swap_format"](symbol)})
+    # Bitget tickers 接口不支持单 symbol 过滤，需要遍历
+    data = _get(url, {"productType": "USDT-FUTURES"})
     if data and data.get("data"):
-        item = data["data"][0] if isinstance(data["data"], list) else data["data"]
-        return float(item.get("lastPr", 0))
+        sym = cfg["swap_format"](symbol)
+        for item in data["data"]:
+            if item.get("symbol") == sym:
+                return float(item.get("lastPr", 0))
     return None
 
 
