@@ -38,11 +38,11 @@ Compare perpetual contract funding rates across exchanges. When one exchange cha
 2. Compare rates pairwise — find the lowest and highest
 3. Calculate rate difference and annualized yield: `APY = rate_diff × (365 × 24 / 8) × 100`
 4. Filter by minimum APY threshold (default: 0%)
-5. Assign risk level: LOW (<15% APY + major coin), MEDIUM (15-30%), HIGH (>30% or small cap)
+5. Assign risk level: LOW (<20% APY + major coin), MEDIUM (20-50% or non-major coin), HIGH (>50%)
 6. Output sorted by APY descending
 
 **API endpoints (public, no key needed):**
-- Binance: `GET https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1`
+- Binance: `GET https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT`
 - Bybit: `GET https://api.bybit.com/v5/market/tickers?category=linear&symbol=BTCUSDT`
 - OKX: `GET https://www.okx.com/api/v5/public/funding-rate?instId=BTC-USDT-SWAP`
 - Bitget: `GET https://api.bitget.com/api/v2/mix/market/current-fund-rate?symbol=BTCUSDT&productType=USDT-FUTURES`

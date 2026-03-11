@@ -1,13 +1,11 @@
 """稳定币脱锚监控 — 监测 USDT/USDC 等偏离 $1 的情况"""
 
 import sys
-import time
-import requests
-from config import STABLECOINS, REQUEST_TIMEOUT, RATE_LIMIT_DELAY
+from fetcher import _get
 from formatter import format_output
 
 
-# 用 Binance 和 OKX 的稳定币/USDT 交易对来检测
+# 稳定币监控对，path 用点号分隔访问嵌套 JSON
 DEPEG_PAIRS = {
     "USDC": [
         {"exchange": "Binance", "url": "https://api.binance.com/api/v3/ticker/price", "params": {"symbol": "USDCUSDT"}, "path": "price"},
@@ -20,19 +18,26 @@ DEPEG_PAIRS = {
     "FDUSD": [
         {"exchange": "Binance", "url": "https://api.binance.com/api/v3/ticker/price", "params": {"symbol": "FDUSDUSDT"}, "path": "price"},
     ],
+    "TUSD": [
+        {"exchange": "Binance", "url": "https://api.binance.com/api/v3/ticker/price", "params": {"symbol": "TUSDUSDT"}, "path": "price"},
+    ],
 }
 
 
-def _extract_price(data: dict, path: str) -> float:
-    """从嵌套 JSON 中提取价格"""
+def _extract_price(data, path: str) -> float:
+    """从嵌套 JSON 中按点号路径提取价格"""
     keys = path.split(".")
     val = data
     for k in keys:
+        if val is None:
+            print(f"  [WARN] 路径解析失败: {path}，在 key={k} 处为 None")
+            return 0.0
         if isinstance(val, list):
             val = val[int(k)]
         elif isinstance(val, dict):
             val = val.get(k)
         else:
+            print(f"  [WARN] 路径解析失败: {path}，在 key={k} 处类型异常: {type(val)}")
             return 0.0
     return float(val) if val else 0.0
 
@@ -49,46 +54,43 @@ def scan_stablecoin_depeg(threshold_pct: float = 0.1) -> tuple:
     print(f"[Stablecoin Depeg] 扫描稳定币脱锚...")
     for coin, sources in DEPEG_PAIRS.items():
         for src in sources:
-            try:
-                time.sleep(RATE_LIMIT_DELAY)
-                resp = requests.get(src["url"], params=src["params"], timeout=REQUEST_TIMEOUT)
-                resp.raise_for_status()
-                data = resp.json()
-                price = _extract_price(data, src["path"])
-                if price <= 0:
-                    continue
+            data = _get(src["url"], src["params"])
+            if data is None:
+                continue
 
-                depeg_pct = (price - 1.0) * 100
-                if abs(depeg_pct) >= threshold_pct:
-                    status = "⚠️ DEPEGGED" if abs(depeg_pct) > 0.5 else "WATCH"
-                else:
-                    status = "STABLE"
+            price = _extract_price(data, src["path"])
+            if price <= 0:
+                continue
 
-                rows.append([
-                    coin,
-                    src["exchange"],
-                    f"${price:.6f}",
-                    f"{depeg_pct:+.4f}%",
-                    status,
-                ])
-            except Exception as e:
-                print(f"  [WARN] {coin} @ {src['exchange']}: {e}")
+            depeg_pct = (price - 1.0) * 100
+            if abs(depeg_pct) >= threshold_pct:
+                status = "DEPEGGED" if abs(depeg_pct) > 0.5 else "WATCH"
+            else:
+                status = "STABLE"
+
+            rows.append([
+                coin,
+                src["exchange"],
+                f"${price:.6f}",
+                f"{depeg_pct:+.4f}%",
+                status,
+            ])
 
     rows.sort(key=lambda r: abs(float(r[3].rstrip('%'))), reverse=True)
     return rows, headers
 
 
 def main():
-    fmt = "table"
-    for i, arg in enumerate(sys.argv[1:]):
-        if arg == "--format" and i + 1 < len(sys.argv) - 1:
-            fmt = sys.argv[i + 2]
+    import argparse
+    parser = argparse.ArgumentParser(description="Stablecoin Depeg Monitor")
+    parser.add_argument("--format", choices=["table", "markdown", "json"], default="table")
+    args = parser.parse_args()
 
     rows, headers = scan_stablecoin_depeg()
     print(f"\n{'='*80}")
-    print("📊 Stablecoin Depeg Monitor")
+    print("  Stablecoin Depeg Monitor")
     print(f"{'='*80}")
-    print(format_output(rows, headers, fmt))
+    print(format_output(rows, headers, args.format))
     print(f"\nMonitoring {len(rows)} stablecoin pairs")
 
 

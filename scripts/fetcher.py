@@ -34,9 +34,9 @@ def _get(url: str, params: Optional[dict] = None) -> Optional[dict]:
 def fetch_funding_rate_binance(symbol: str) -> Optional[float]:
     cfg = EXCHANGES["binance"]
     url = cfg["futures_url"] + cfg["endpoints"]["funding_rate"]
-    data = _get(url, {"symbol": cfg["swap_format"](symbol), "limit": 1})
-    if data and len(data) > 0:
-        return float(data[-1]["fundingRate"])
+    data = _get(url, {"symbol": cfg["swap_format"](symbol)})
+    if data:
+        return float(data.get("lastFundingRate", 0))
     return None
 
 
@@ -117,13 +117,10 @@ def fetch_spot_ticker_okx(symbol: str) -> Optional[dict]:
 def fetch_spot_ticker_bitget(symbol: str) -> Optional[dict]:
     cfg = EXCHANGES["bitget"]
     url = cfg["base_url"] + cfg["endpoints"]["spot_ticker"]
-    # bitget spot tickers 返回全部，需要过滤
-    data = _get(url)
+    data = _get(url, {"symbol": cfg["symbol_format"](symbol)})
     if data and data.get("data"):
-        sym = cfg["symbol_format"](symbol)
-        for item in data["data"]:
-            if item.get("symbol") == sym:
-                return {"bid": float(item.get("bidPr", 0)), "ask": float(item.get("askPr", 0))}
+        item = data["data"][0] if isinstance(data["data"], list) else data["data"]
+        return {"bid": float(item.get("bidPr", 0)), "ask": float(item.get("askPr", 0))}
     return None
 
 
@@ -175,12 +172,10 @@ def fetch_futures_price_okx(symbol: str) -> Optional[float]:
 def fetch_futures_price_bitget(symbol: str) -> Optional[float]:
     cfg = EXCHANGES["bitget"]
     url = cfg["base_url"] + cfg["endpoints"]["futures_ticker"]
-    data = _get(url, {"productType": "USDT-FUTURES"})
+    data = _get(url, {"productType": "USDT-FUTURES", "symbol": cfg["swap_format"](symbol)})
     if data and data.get("data"):
-        sym = cfg["swap_format"](symbol)
-        for item in data["data"]:
-            if item.get("symbol") == sym:
-                return float(item.get("lastPr", 0))
+        item = data["data"][0] if isinstance(data["data"], list) else data["data"]
+        return float(item.get("lastPr", 0))
     return None
 
 

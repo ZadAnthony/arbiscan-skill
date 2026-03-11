@@ -3,7 +3,7 @@
 import argparse
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 from funding_arb import scan_funding_arbitrage
 from basis_arb import scan_basis_arbitrage
@@ -87,7 +87,7 @@ Examples:
         sys.exit(0)
 
     print(BANNER)
-    print(f"  Scan started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    print(f"  Scan started at {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
 
     scan_type = "all" if args.all else args.type
     start = time.time()

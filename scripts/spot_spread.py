@@ -1,6 +1,5 @@
 """跨所现货价差扫描 — best_bid vs best_ask 跨交易所比较"""
 
-import sys
 from itertools import combinations
 from config import TOP_SYMBOLS, EXCHANGES
 from fetcher import fetch_all_spot_tickers
@@ -63,16 +62,16 @@ def scan_spot_spread(symbols: list = None, min_spread_pct: float = 0.02) -> tupl
 
 
 def main():
-    fmt = "table"
-    for i, arg in enumerate(sys.argv[1:]):
-        if arg == "--format" and i + 1 < len(sys.argv) - 1:
-            fmt = sys.argv[i + 2]
+    import argparse
+    parser = argparse.ArgumentParser(description="Cross-Exchange Spot Spread Scanner")
+    parser.add_argument("--format", choices=["table", "markdown", "json"], default="table")
+    args = parser.parse_args()
 
     rows, headers = scan_spot_spread()
     print(f"\n{'='*80}")
-    print("📊 Cross-Exchange Spot Spread")
+    print("  Cross-Exchange Spot Spread")
     print(f"{'='*80}")
-    print(format_output(rows, headers, fmt))
+    print(format_output(rows, headers, args.format))
     print(f"\nFound {len(rows)} opportunities")
 
 

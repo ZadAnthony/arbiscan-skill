@@ -1,6 +1,5 @@
 """期现基差套利扫描 — 同所 spot vs futures 价差"""
 
-import sys
 from config import TOP_SYMBOLS, EXCHANGES
 from fetcher import fetch_all_spot_prices, fetch_all_futures_prices
 from formatter import format_output, risk_level
@@ -53,16 +52,16 @@ def scan_basis_arbitrage(symbols: list = None, min_basis_pct: float = 0.05) -> t
 
 
 def main():
-    fmt = "table"
-    for i, arg in enumerate(sys.argv[1:]):
-        if arg == "--format" and i + 1 < len(sys.argv) - 1:
-            fmt = sys.argv[i + 2]
+    import argparse
+    parser = argparse.ArgumentParser(description="Basis Arbitrage Scanner")
+    parser.add_argument("--format", choices=["table", "markdown", "json"], default="table")
+    args = parser.parse_args()
 
     rows, headers = scan_basis_arbitrage()
     print(f"\n{'='*80}")
-    print("📊 Basis Arbitrage (Spot vs Futures)")
+    print("  Basis Arbitrage (Spot vs Futures)")
     print(f"{'='*80}")
-    print(format_output(rows, headers, fmt))
+    print(format_output(rows, headers, args.format))
     print(f"\nFound {len(rows)} opportunities")
 
 

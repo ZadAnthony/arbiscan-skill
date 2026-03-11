@@ -7,9 +7,6 @@ TOP_SYMBOLS = [
     "ETC", "IMX", "INJ", "SEI", "SUI", "TIA", "JUP", "WLD", "PEPE", "WIF",
 ]
 
-# 稳定币监控列表
-STABLECOINS = ["USDT", "USDC", "DAI", "FDUSD", "TUSD"]
-
 # 交易所配置
 EXCHANGES = {
     "binance": {
@@ -17,7 +14,7 @@ EXCHANGES = {
         "base_url": "https://api.binance.com",
         "futures_url": "https://fapi.binance.com",
         "endpoints": {
-            "funding_rate": "/fapi/v1/fundingRate",
+            "funding_rate": "/fapi/v1/premiumIndex",
             "spot_ticker": "/api/v3/ticker/bookTicker",
             "futures_ticker": "/fapi/v1/ticker/price",
             "spot_price": "/api/v3/ticker/price",
