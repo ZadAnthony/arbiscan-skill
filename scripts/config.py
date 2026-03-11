@@ -1,10 +1,20 @@
 """交易所端点配置 + symbol 映射"""
 
-# Top 30 主流交易对
+# Top 100 交易对（按市值排序，可自行增删）
 TOP_SYMBOLS = [
+    # Top 30
     "BTC", "ETH", "BNB", "SOL", "XRP", "DOGE", "ADA", "AVAX", "DOT", "LINK",
     "MATIC", "UNI", "LTC", "BCH", "NEAR", "APT", "OP", "ARB", "FIL", "ATOM",
     "ETC", "IMX", "INJ", "SEI", "SUI", "TIA", "JUP", "WLD", "PEPE", "WIF",
+    # 31-60
+    "FET", "STX", "RUNE", "AAVE", "MKR", "GRT", "SNX", "PENDLE", "DYDX", "ENS",
+    "BLUR", "LDO", "CRV", "COMP", "FTM", "MANA", "SAND", "AXS", "GALA", "ENJ",
+    "ALGO", "EGLD", "FLOW", "XTZ", "EOS", "IOTA", "ZIL", "ONE", "KAVA", "CELO",
+    # 61-100
+    "1INCH", "SUSHI", "YFI", "BAL", "ZRX", "BAND", "STORJ", "SKL", "ANKR", "CELR",
+    "MASK", "API3", "SSV", "ACH", "LQTY", "GMX", "RDNT", "MAGIC", "HOOK", "EDU",
+    "CYBER", "ARKM", "NTRN", "MEME", "ORDI", "BONK", "FLOKI", "1000SATS", "PYTH", "JTO",
+    "ONDO", "STRK", "PIXEL", "PORTAL", "AEVO", "ENA", "W", "TNSR", "SAGA", "OMNI",
 ]
 
 # 交易所配置
