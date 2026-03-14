@@ -274,7 +274,8 @@ Note: OKX returns contract count, not base asset amount. Units differ from other
 Bitget:
 ```
 GET https://api.bitget.com/api/v2/mix/market/open-interest?productType=USDT-FUTURES&symbol=BTCUSDT
-→ Read: float(response["data"]["openInterest"]) or float(response["data"][0]["openInterest"])
+→ Read: float(response["data"]["openInterestList"][0]["size"])
+Note: Field is "size" inside "openInterestList", NOT "openInterest".
 ```
 
 ### 7. Funding Rate Extreme Alert

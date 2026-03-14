@@ -283,7 +283,9 @@ def fetch_oi_bitget(symbol: str) -> Optional[float]:
     url = cfg["base_url"] + cfg["endpoints"]["open_interest"]
     data = _get(url, {"productType": "USDT-FUTURES", "symbol": cfg["swap_format"](symbol)})
     if data and data.get("data"):
-        return float(data["data"].get("openInterest", 0)) if isinstance(data["data"], dict) else float(data["data"][0].get("openInterest", 0))
+        oi_list = data["data"].get("openInterestList")
+        if oi_list and len(oi_list) > 0:
+            return float(oi_list[0].get("size", 0))
     return None
 
 
