@@ -112,7 +112,7 @@ ArbiScan is designed to work alongside exchange trading skills:
 
 - Fetches data from **public API endpoints only** — no API keys, no authentication
 - Built-in rate limiting (200ms between requests) to respect exchange limits
-- Covers **Top 100 trading pairs** by market cap
+- Covers **Top 30 trading pairs** by default (expandable on request) by market cap
 - **12 scan types** across 3 categories (arbitrage, monitoring, signals)
 - Risk scoring based on APY magnitude and coin category
 

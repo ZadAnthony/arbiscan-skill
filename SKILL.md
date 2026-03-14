@@ -462,7 +462,7 @@ Always present results in a clear table appropriate to the scan type. Example fo
 - **No API keys needed**: All data comes from public endpoints.
 - **Not financial advice**: Opportunities shown are theoretical. Actual execution requires considering gas fees, withdrawal times, slippage, and exchange risks.
 - **Rate limits**: Respect exchange rate limits. Add ~200ms delay between requests. Do not send burst requests.
-- **Coverage**: Top 100 trading pairs for most scans. Open Interest, Funding History, and Long/Short Ratio default to Top 30 for speed. 4 major exchanges (some scans have limited exchange coverage — see individual scan descriptions).
+- **Coverage**: Default Top 30 trading pairs by market cap. Users can request broader scans (e.g., "scan Top 100" or "scan all coins") — the agent can scan any symbol that exists on the exchanges. 4 major exchanges (some scans have limited exchange coverage — see individual scan descriptions).
 - **Bitget bulk endpoints**: Bitget's spot tickers and futures tickers endpoints return ALL symbols at once. Filter the response by symbol name rather than passing a symbol parameter.
 
 ## Composable Usage
