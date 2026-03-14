@@ -35,11 +35,29 @@ ArbiScan is an [OpenClaw Skill](https://clawhub.ai) and standalone CLI that scan
 | **Long/Short Ratio** | Flags extreme positioning (>65% one-sided) | Binance + Bybit ratio endpoints |
 | **New Listing** | Tokens on some exchanges but not others — premium potential | Exchange pair lists |
 
+## Installation
+
+### Option 1: ClawHub (OpenClaw)
+
+Search **ArbiScan** on [clawhub.ai](https://clawhub.ai/skills) and install.
+
+### Option 2: Skills CLI (Claude Code / Cursor / Codex)
+
+```bash
+npx skills add ZadAnthony/arbiscan-skill
+```
+
+### Option 3: GitHub (manual)
+
+```bash
+git clone https://github.com/ZadAnthony/arbiscan-skill.git
+```
+
 ## Quick Start
 
-### As an OpenClaw Skill
+### As an AI Agent Skill
 
-Install from ClawHub and let your AI agent scan:
+After installing, just tell your AI agent what you want:
 
 ```
 "Scan for funding rate arbitrage opportunities with APY > 10%"
